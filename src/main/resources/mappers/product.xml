@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mayby.product.domain.ProductMapper">
+	<sql id="registerProductColumns">
+		p_id,
+		p_name, 
+		p_catecode,
+		p_size, 
+		p_price,
+		p_discount,
+		p_color,                                        
+		p_amount, 
+		p_fabric,
+		p_information
+	</sql>
+	
+	<!-- 아이디 중복 검사 -->
+	<select id="idCheck" resultType="int">
+		select count(*) from clothmall.product
+		where p_id = #{p_id}
+	</select>
+	
+	<!-- criteria(검색조건) -->
+	<!-- 예상 쿼리1 -->
+	<!-- (p_catecode = #{p_cateCode} AND p_name LIKE #{keyword}) AND-->
+	
+	<!-- 예상 쿼리2 -->
+	<!-- (p_catecode LIKE  #{p_catecode})  AND -->
+	
+	<!-- 예상 쿼리3 -->
+	<!-- (p_name LIKE #{p_name}) AND -->
+	
+	<sql id="criteria">
+		<trim prefix="where (" suffix=")" prefixOverrides="AND">
+	  		<foreach item="type" collection="typeArr">
+	  			<trim prefix="AND">
+	  				<choose>
+	  					<when test="type == 'C'.toString()">
+	  						p_catecode = #{cateCode}
+	  					</when> 
+	  					<when test="type == 'C'.toString()">
+	  						p_catecode like concat ('%', #{cateCode}, '%')
+	  					</when>  					
+	  					<when test="type == 'T'.toString()">
+	  						p_name like concat ('%', #{keyword}, '%')
+	  					</when>  					
+	  				</choose>
+	  			</trim>
+	  		</foreach>
+	  	</trim>
+	</sql>
+	
+	<!-- 상품 등록 -->
+	<insert id="registerProduct" parameterType="com.mayby.product.vo.ProductVO">
+		<selectKey resultType="int"  keyProperty="p_idx" order="AFTER">
+			SELECT LAST_INSERT_ID() as p_idx
+		</selectKey>
+		insert into clothmall.product (
+			<include refid="registerProductColumns" />
+		) values (
+			#{p_id}, #{p_name}, #{p_catecode}, #{p_size}, #{p_price}, #{p_discount}, #{p_color}, #{p_amount}, #{p_fabric}, #{p_information}
+		)
+	</insert>
+	
+	<!-- 상품 검색 -->
+	<select id="getGoodsList" parameterType="com.mayby.product.vo.ProductVO" resultType="com.mayby.product.vo.ProductVO">
+		select 
+			p.p_idx, p.p_id, p.p_name, p.p_catecode, pc.pc_name, p.p_size, p.p_price, p.p_discount, p.p_color, 
+			 p.p_regdate, p.p_updatedate, p.p_amount, p.p_fabric, p.	p_information
+		from clothmall.product p
+		left outer join clothmall.pcategory pc 
+		on p.p_catecode =  pc.pc_code
+		<include refid="criteria"></include>
+		order by p.p_idx asc
+		limit #{skip}, #{amount}
+	</select>
+	
+	<!-- 상품 총 갯수(검색 시) -->
+	<select id="goodsGetTotal" resultType="int">
+  		select count(*) from clothmall.product
+		<include refid="criteria"></include>
+	</select>
+
+	<!-- 여성 카테고리 리스트 -->
+	<select id="getCateCode1" resultType="com.mayby.category.vo.CategoryVO">
+		<![CDATA[
+		select * from clothmall.pcategory
+		where pc_code > 100000
+		and pc_code < 200000
+		]]>
+	</select>
+	
+	<!-- 남성 카테고리 리스트 -->
+	<select id="getCateCode2" resultType="com.mayby.category.vo.CategoryVO">
+		<![CDATA[
+		select * from clothmall.pcategory
+		where pc_code > 200000
+		and pc_code < 300000
+		]]>
+	</select>
+	
+	<!-- 상품 상세 정보 -->
+	<select id="getGoodsInfo" resultType="com.mayby.product.vo.ProductVO">
+		 select 
+		 	p.p_idx, p.p_id, p.p_name, p.p_catecode, pc.pc_name, p.p_size, p.p_price, p.p_discount, p.p_color, 
+			p.p_amount, p.p_fabric, p.	p_information
+		from clothmall.product p
+		left outer join clothmall.pcategory pc 
+		on p.p_catecode =  pc.pc_code
+		 where p_idx = #{p_idx}
+	</select>
+	
+</mapper>

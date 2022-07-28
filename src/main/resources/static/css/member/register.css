@@ -1,0 +1,57 @@
+@charset "UTF-8";
+@import url('https://fonts.googleapis.com/css2?family=Yeon+Sung&display=swap');
+
+* {
+	font-family: 'Yeon Sung', cursive;
+	font-size: 15px important;
+}
+/*중복 아이디 존재X */
+.id_input_1 {
+	color : green;
+	display : none;
+}
+/* 중복 아이디 존재O */
+.id_input_2{
+	color : red;
+	display : none;
+}
+
+/* 유효성 검사 span */
+.final_id_ck{
+    display: none;
+    color: red;
+}
+.final_pw_ck{
+    display: none;
+    color: red;
+}
+.final_pwck_ck{
+    display: none;
+    color: red;
+}
+.final_name_ck{
+    display: none;
+    color: red;
+}
+.final_mail_ck{
+    display: none;
+    color: red;
+}
+.final_phone_ck{
+    display: none;
+    color: red;
+}
+.final_addr_ck{
+    display: none;
+    color: red;
+}
+
+/* 비밀번호 확인 일치 유효성검사 */
+.pwck_input_re_1{
+        color : green;
+        display : none;    
+}
+.pwck_input_re_2{
+        color : red;
+        display : none;    
+}   

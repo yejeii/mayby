@@ -1,0 +1,10 @@
+@charset "UTF-8";
+
+/* 로그인 실패 시 경고글 */
+.login_warn {
+	font-size: 17px;
+	margin: 20px 0;
+	text-align: center;
+	font-weight: 700;
+	color: red;
+}

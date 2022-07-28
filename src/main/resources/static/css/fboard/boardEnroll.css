@@ -1,0 +1,14 @@
+@charset "UTF-8";
+@import url('https://fonts.googleapis.com/css2?family=Yeon+Sung&display=swap');
+
+* {
+	font-family: 'Yeon Sung', cursive;
+	font-size: 15px important;
+}
+
+/* 유효성 검사 span */
+.ck_warn{
+    display: none;
+    color: red;
+}
+

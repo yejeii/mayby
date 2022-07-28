@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mayby.reply.domain.ReplyMapper">
+
+	<select id="list" parameterType="int" resultType="ReplyVO">
+		select
+			r_no,
+			r_content,
+			r_m_id,
+			r_regdate,
+			r_updatedate
+		from clothmall.reply
+		where r_b_id = #{r_b_id}
+		order by r_no
+	</select>
+
+
+	<insert id="create">
+		insert into clothmall.reply(
+		r_content,
+		r_m_id,
+		r_b_id
+		)values(
+			#{r_content},
+			#{r_m_id},
+			#{r_b_id}
+		)
+	</insert>
+	
+	<update id="update">
+		update clothmall.reply
+		set 
+			r_content = #{r_content},
+			r_updatedate = NOW()
+		where r_no = #{r_no}
+	</update>
+	
+	<delete id="delete">
+		delete from clothmall.reply
+		where r_no = #{r_no}
+	</delete>
+    
+	<select id="listPaging" resultType="ReplyVO">
+    SELECT
+        r_no
+        , r_b_id
+        , r_content
+        , r_m_id
+        , r_regdate
+        , r_updatedate
+    FROM clothmall.reply
+    WHERE r_b_id = #{r_b_id}
+    ORDER BY r_no
+    LIMIT #{criteria.pageStart}, #{criteria.perPageNum}
+</select>
+
+<select id="countReplies" resultType="int">
+    SELECT
+        COUNT(r_b_id)
+    FROM clothmall.reply
+    WHERE r_b_id = #{r_b_id}
+</select>
+	
+</mapper>

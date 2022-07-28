@@ -1,0 +1,44 @@
+plugins {
+    id 'org.springframework.boot' version '2.7.2'
+    id 'io.spring.dependency-management' version '1.0.12.RELEASE'
+    id 'java'
+}
+
+group = 'com.mayby'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2'
+    implementation 'org.springframework.session:spring-session-core'
+    implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-jasper'    // 내장 톰켓에서 jstl 인식
+    implementation group: 'javax.servlet', name: 'jstl'     // jstl
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind'
+    implementation group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-xml'
+    implementation group: 'com.zaxxer', name: 'HikariCP',version: '4.0.3'
+    implementation group: 'net.coobird', name: 'thumbnailator', version: '0.4.17'
+    implementation group: 'org.springframework', name: 'spring-tx'
+    implementation group: 'org.webjars.bower', name: 'jquery', version:'3.6.0'
+    implementation group: 'org.webjars', name: 'bootstrap', version: '5.0.0'
+
+    compileOnly 'org.projectlombok:lombok'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    runtimeOnly 'mysql:mysql-connector-java'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mayby.member.domain.MemberMapper">
+	<sql id="registerMemberColumns">
+		m_id,
+		m_pw,
+		m_name,
+		m_postcode,
+		m_address,
+		m_extraAddress,
+		m_elseAddress,
+		m_phone,
+		m_email, 
+		m_coupon,
+		m_point,
+		m_grade,
+		m_regdate
+	</sql>
+	
+	<insert id="registerMember" parameterType="com.mayby.member.vo.MemberVO" >
+		insert into clothmall.member (
+			<include refid="registerMemberColumns"/>
+		) values (
+			#{m_id}, #{m_pw}, #{m_name}, #{m_postcode}, #{m_address}, #{m_extraAddress}, #{m_elseAddress}, #{m_phone}, #{m_email}, 3000, 5000, 'GREEN', sysdate()
+		)
+		
+	</insert>
+	
+	<select id="checkId" resultType="int">
+		select count(*) from clothmall.member
+		where m_id = #{m_id}
+	</select>
+	
+	<select id="getMemberById" parameterType="String" resultType="MemberVO">
+		select *
+	 	from clothmall.member
+	 	where m_id = #{m_id}
+	</select>
+	
+	<select id="memberLogin" resultType="com.mayby.member.vo.MemberVO">
+		SELECT *
+		FROM clothmall.member 
+		where m_email= #{m_email}
+		AND m_pw = #{m_pw}
+	</select>
+	
+	<select id="getMember" parameterType="com.mayby.member.vo.MemberVO" resultType="MemberVO">
+		select *
+		from clothmall.member 
+		where m_id = #{m_id}
+	</select>
+	
+	<update id="memberUpdate" parameterType="com.mayby.member.vo.MemberVO">
+		update clothmall.member 
+		set 
+			m_name = #{m_name}, 
+			m_email = #{m_email},
+			m_phone = #{m_phone},
+			m_postcode = #{m_postcode},
+			m_address = #{m_address},
+			m_extraAddress = #{m_extraAddress},
+			m_elseAddress = #{m_elseAddress}
+		where m_id = #{m_id} 
+		and m_no = #{m_no}
+	</update>
+	
+	<delete id="memberDelete">
+   		delete 
+   		from clothmall.member
+   		where m_id = #{m_id} and m_pw = #{m_pw}
+   </delete>
+	
+	<select id="checkMember" parameterType="com.mayby.member.vo.MemberVO" resultType="string">
+	 	select m_id
+	 	from clothmall.member
+	 	where m_id = #{m_id} and m_pw = #{m_pw}
+	</select>
+	
+</mapper>

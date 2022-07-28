@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mayby.admin.domain.AdminMapper">
+	<sql id="productCol">
+		p_id,
+		p_name, 
+		p_catecode,
+		p_size, 
+		p_price,
+		p_discount,
+		p_color,                                        
+		p_amount, 
+		p_fabric,
+		p_information
+	</sql>
+
+	<select id="adminLogin" resultType="AdminVO">
+		select a_id, a_name
+		from clothmall.admin
+		where a_id = #{a_id}
+		and a_pw = #{a_pw}
+	</select>
+	
+	<!-- 카테고리 리스트 -->
+	<select id="getcateList" resultType="CategoryVO">
+		select * from clothmall.pcategory order by pc_code;
+	</select>
+	
+	<!-- 상품 리스트 -->
+	<select id="getProductList" resultType="com.mayby.product.vo.ProductVO">
+		select p.p_idx, p.p_id, p.p_name, p.p_catecode, p.p_size, p.p_price, p.p_discount, p.p_color, 
+				 p.p_regdate, p.p_updatedate, p.p_amount, p.p_fabric, p.	p_information
+		from clothmall.product p
+		left outer join clothmall.pcategory pc 
+		on p.p_catecode =  pc.pc_code
+		<if test="keyword != null">
+			where (p.p_id like concat('%', #{keyword}, '%'))
+		</if>
+		order by p.p_idx asc
+		limit #{skip}, #{amount}
+	</select>
+
+	<!-- 상품 총 갯수 -->
+	<select id="getGoodsCnt" resultType="int">
+		select count(*) 
+		from clothmall.product
+		<if test="keyword != null">
+			where p_id like concat('%', #{keyword}, '%')
+		</if>
+	</select>
+	
+	<!-- 상품 조회 -->
+	<select id="getProductDetail" parameterType="String" resultType="com.mayby.product.vo.ProductVO">
+		select * 
+		from clothmall.product
+		where p_id = #{p_id}
+	</select>
+	
+	<!-- 상품 수정 -->
+	<update id="goodsModify" parameterType="com.mayby.product.vo.ProductVO">
+		update clothmall.product
+		set 
+			p_name = #{p_name}, 
+			p_catecode = #{p_catecode},
+			p_size = #{p_size},
+			p_price = #{p_price},
+			p_discount = #{p_discount},
+			p_color = #{p_color},                                        
+			p_amount = #{p_amount},
+			p_updatedate = now(),
+			p_fabric = #{p_fabric},
+			p_information = #{p_information}
+		where p_idx = #{p_idx}
+		and p_id = #{p_id}
+	</update>
+	
+	<!-- 상품 삭제 -->
+	<delete id="goodsDelete" parameterType="String">
+		delete from clothmall.product
+		where p_id = #{p_id}
+	</delete>
+	
+	<!-- 이미지 등록 -->
+	<insert id="imageEnroll">
+		insert into clothmall.pimage(pi_p_id, pi_fileName, pi_uploadPath, pi_uuid)
+		values(
+			#{pi_p_id},
+			#{pi_fileName},
+			#{pi_uploadPath},
+			#{pi_uuid}
+		)
+	</insert>
+	
+	<!-- 총 회원 조회 - 페이징 적용 -->
+	<select id="getListPaging" resultType="com.mayby.member.vo.MemberVO">
+		select * from (
+			select m_no, m_id, m_name, m_phone, m_email, m_postcode, m_coupon, m_point, m_regdate
+			from clothmall.member
+			order by m_no desc ) as MB
+		limit #{skip}, #{amount}
+	</select>
+	
+	<!--  회원 총 수 -->
+	<select id="getMemberCnt" resultType="int">
+		select count(*) 
+		from clothmall.member
+	</select>
+	</mapper>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mayby.fboard.domain.FBoardMapper">
+
+	<sql id="enrollColumn">
+		fb_writer, 
+		fb_subject, 
+		fb_content, 
+		fb_readcount,
+		fb_regdate
+	</sql>
+
+	<select id="getBoardList" parameterType="com.mayby.fboard.vo.FBoardVO" resultType="com.mayby.fboard.vo.FBoardVO">
+		select fb_no, fb_writer, fb_subject, fb_readcount, fb_regdate
+		from clothmall.fboard
+		order by fb_no desc
+	</select>
+	
+	<select id="getBoardDetail" parameterType="int" resultType="com.mayby.fboard.vo.FBoardVO">
+		select *
+		from clothmall.fboard
+		where fb_no = #{fb_no}
+	</select>
+	
+	<!-- 검색 조건문 -->
+    <sql id="criteria">
+        <trim prefix="where (" suffix=")" prefixOverrides="OR">
+            <foreach collection="typeArr" item="type">
+                <trim prefix="OR">
+                    <choose>
+                        <when test="type == 'T'.toString()">
+                            fb_subject like concat('%',#{keyword},'%') 
+                        </when>
+                        <when test="type == 'C'.toString()">
+                            fb_content like concat('%',#{keyword},'%') 
+                        </when>
+                        <when test="type == 'W'.toString()">
+                            fb_writer like concat('%',#{keyword},'%' )
+                        </when>
+                    </choose>
+                </trim>
+            </foreach>
+        </trim>
+    
+    </sql>
+	
+	<!-- 페이징 적용 -->
+	<select id="getListPaging" resultType="com.mayby.fboard.vo.FBoardVO">
+		select * from (
+                select fb_no, fb_subject, fb_writer, fb_regdate
+                from clothmall.fboard 
+                <if test="keyword != null">
+                		<include refid="criteria"></include>
+                </if>
+                order by fb_no desc) as FB 
+        <!-- limit ((${pageNum}-1)*${amount}), ${amount} -->
+        limit #{skip}, #{amount}
+	</select>
+	
+	<!-- 게시물 총 갯수 -->
+    <select id="getTotal" resultType="int">
+        select count(*) from clothmall.fboard 
+        
+        <if test="keyword != null">
+        		<include refid="criteria"></include>
+        </if>
+    </select>
+	
+	<insert id="enrollBoard" parameterType="com.mayby.fboard.vo.FBoardVO">
+		insert into clothmall.fboard
+		(
+			<include refid="enrollColumn"/>	
+		) values (
+			#{fb_writer}, #{fb_subject}, #{fb_content}, 0, now()
+		)
+	</insert> 
+	
+ 	<update id="modifyBoard" parameterType="com.mayby.fboard.vo.FBoardVO">
+		update clothmall.fboard
+		set
+			fb_subject = #{fb_subject}, 
+			fb_content = #{fb_content}
+		where fb_no = #{fb_no} 
+	</update>
+	
+	
+	<delete id="deleteBoard" parameterType="int">
+		delete from clothmall.fboard
+		where fb_no = #{fb_no}
+	</delete>
+</mapper>

@@ -1,0 +1,21 @@
+@charset "UTF-8";
+@import url('https://fonts.googleapis.com/css2?family=Yeon+Sung&display=swap');
+
+/* Delete - 유효성 검사 span */
+.delete_id_ck_1{
+    display: none;
+    color: red;
+}
+.delete_id_ck_2{
+    display: none;
+    color: green;
+}
+    
+.delete_pw_ck_1{
+    display: none;
+    color: red;    
+}
+.delete_pw_ck_2{
+    display: none;
+    color: green;    
+}

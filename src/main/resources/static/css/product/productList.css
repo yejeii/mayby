@@ -1,0 +1,36 @@
+@charset "UTF-8";
+ 
+/**
+  * productList.jsp css
+  * made by yeji
+  */
+
+.product_name a {
+	font-size: 20px !important;
+}
+
+.product_price {
+	margin-top: 5px;
+    padding-left: 15px !important;
+}
+.org_price {
+	text-align: center;
+	padding-top: 3px;
+}
+.org_price del{
+	font-size: 18px;
+}
+
+.sell_price {
+	padding-left: 20px;
+}
+.sell_price strong{
+	color: #da6262;
+   	font-size: 22px;
+}
+
+.pageMaker_btn a {
+	font-size: 20px !important;
+	padding-right: 5px;
+	font-weight: 500;
+}
