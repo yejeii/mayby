@@ -140,6 +140,8 @@
 <script src="${contextPath}/static/js/glightbox.min.js"></script>
 <script src="${contextPath}/static/js/main.js"></script>
 <script src="${contextPath}/static/js/member/register.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+
 </body>
 
 </html>

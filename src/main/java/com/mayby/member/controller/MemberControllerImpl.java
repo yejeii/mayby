@@ -52,7 +52,7 @@ public class MemberControllerImpl implements MemberController{
 			if(member == null) {
 				LOGGER.info(" M.C - 회원정보 X");
 				rttr.addFlashAttribute("login_result", "failed");
-				return "member/login";
+				return "redirect:login";
 			}
 			else {
 				LOGGER.info(" M.C - 회원정보 O");
