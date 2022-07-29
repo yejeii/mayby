@@ -27,4 +27,7 @@ public interface MemberService {
 	
 	// 회원 탈퇴 처리
 	public void memberDelete(MemberVO vo) throws Exception;
+	
+	//회원 프로필 수정
+	public void modifyproflie(String m_id, String m_proflie) throws Exception;
 }

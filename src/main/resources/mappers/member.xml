@@ -78,5 +78,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	 	from clothmall.member
 	 	where m_id = #{m_id} and m_pw = #{m_pw}
 	</select>
-	
+
+	<update id="updateproflie">
+		UPDATE member
+			SET
+			    m_proflie =#{m_proflie}
+		WHERE m_proflie = #{m_email}
+	</update>
+
 </mapper>

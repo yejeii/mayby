@@ -12,23 +12,25 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mayby.member.service.MemberService;
 import com.mayby.member.vo.MemberVO;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 
 @Controller
 @RequestMapping("/member/*")
 public class MemberControllerImpl implements MemberController{
 
 	private static final Logger LOGGER = LogManager.getLogger(MemberControllerImpl.class);
+
+	private static final String SAVEFILEDIRECTORY = "C:\\spring\\mayby\\member\\profile";
 
 	@Autowired
 	MemberService memberService;
@@ -242,6 +244,25 @@ public class MemberControllerImpl implements MemberController{
 		}
 		return new ResponseEntity(message, header, HttpStatus.OK);
 		
+	}
+
+	@RequestMapping(value = "memberModify.image", method = RequestMethod.POST)
+	public String proflieModify(String m_id, MultipartFile file, HttpSession session, RedirectAttributes redirectAttributes) throws Exception {
+
+		if (file == null) {
+			redirectAttributes.addFlashAttribute("msg", "FAIL");
+			return "redirect:myPage";
+		}
+		String uploadFile = uploadFileUtils.uploadFile(m_profliePath, file.getOriginalFilename(), file.getBytes());
+		String front = uploadFile.substring(0, 12);
+		String end = uploadFile.substring(14);
+		String m_proflie = front + end;
+		memberService.modifyproflie(m_id, m_proflie);
+		Object userObj = session.getAttribute("login");
+		MemberVO memberVO = (MemberVO) userObj;
+		memberVO.setM_proflie(m_proflie);
+		session.setAttribute("login", memberVO);
+		redirectAttributes.addFlashAttribute("msg", "SUCCESS");
 	}
 
 	

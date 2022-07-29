@@ -31,5 +31,6 @@ public interface MemberMapper {
 	// 아이디로 회원 정보 조회
 	public MemberVO getMemberById(String m_id) throws Exception;
 
-	
+	//회원 프로필 사진 수정
+	public void updateproflie(String m_id,String m_proflie);
 }

@@ -26,4 +26,6 @@ public interface MemberController {
 	
 	// 회원 탈퇴 처리
 	public ResponseEntity memberDeletePro(HttpSession session, HttpServletRequest request, MemberVO vo) throws Exception;
+
+	public String updateproflie(MemberVO, HttpServletRequest request, HttpSession session) throws Exception;
 }

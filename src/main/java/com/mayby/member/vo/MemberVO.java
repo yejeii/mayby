@@ -24,5 +24,6 @@ public class MemberVO {
 	private int m_point;
 	private String m_grade;
 	private Timestamp m_regdate;
+	private String m_proflie;
 	
 }

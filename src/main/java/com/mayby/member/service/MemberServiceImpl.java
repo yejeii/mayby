@@ -3,10 +3,19 @@ package com.mayby.member.service;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.mayby.member.domain.MemberMapper;
 import com.mayby.member.vo.MemberVO;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 
 @Service
 public class MemberServiceImpl implements MemberService{
@@ -17,7 +26,8 @@ public class MemberServiceImpl implements MemberService{
 	
 	@Autowired
 	MemberMapper memberMapper;
-	
+
+
 
 	@Override
 	public void register(MemberVO vo) throws Exception {
@@ -83,6 +93,13 @@ public class MemberServiceImpl implements MemberService{
 	public MemberVO getMemberById(String m_id) throws Exception {
 		LOGGER.info(" M.S - getMemberById() 호출");
 		return memberMapper.getMemberById(m_id);
+	}
+
+	//회원 프로필 수정 처리
+	@Override
+	public void modifyproflie(String m_id, String m_proflie) throws Exception{
+		LOGGER.info(" M.S - memberDelete() 호출");
+		memberMapper.updateproflie(m_id, m_proflie);
 	}
 
 
