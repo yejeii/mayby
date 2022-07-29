@@ -74,10 +74,10 @@
                         <h3>No Account? Register</h3>
                         <p>Registration takes less than a minute but gives you full control over your orders.</p>
                     </div>
-                    <form class="row" method="post">
+                    <form id="joinForm" class="row" method="post">
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label for="reg-fn">First Name</label>
+                                <label for="reg-fn">NickName</label>
                                 <input class="form-control" type="text" id="reg-fn" required>
                             </div>
                         </div>

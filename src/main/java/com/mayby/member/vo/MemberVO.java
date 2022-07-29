@@ -11,7 +11,8 @@ import lombok.Data;
 public class MemberVO {
 	
 	private int m_no;
-	private String m_id;
+	private String m_nickname;
+	private String m_email;
 	private String m_pw;
 	private String m_name;
 	private String m_postcode;
@@ -19,7 +20,6 @@ public class MemberVO {
 	private String m_extraAddress;
 	private String m_elseAddress;
 	private String m_phone;
-	private String m_email;
 	private int m_coupon;
 	private int m_point;
 	private String m_grade;

@@ -50,7 +50,7 @@
                         <c:if test="${user != null }">
                             <div class="user">
                                 <i class="lni lni-user"></i>
-                                Hello ${user.m_id}!!
+                                Hello ${user.m_nickname}!!
                             </div>
                             <ul class="user-login">
                                 <li>

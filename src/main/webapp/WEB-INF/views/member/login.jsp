@@ -98,6 +98,7 @@
                             <div class="form-group input-group">
                                 <label for="m_email">Email</label>
                                 <input class="form-control email_input" name="m_email" type="email" id="m_email">
+                                <span class="final_mail_ck">이메일 형식을 지켜 필수적으로 입력하세요.</span>
                             </div>
                             <div class="form-group input-group">
                                 <label for="m_pw">Password</label>
@@ -146,12 +147,6 @@
 <script src="${contextPath}/static/js/glightbox.min.js"></script>
 <script src="${contextPath}/static/js/main.js"></script>
 <script src="${contextPath}/static/js/member/login.js"></script>
-<script>
-    let login_result='<c:out value="${login_result}"/>';
-    if(login_result == 'failed') {
-        alert("Failed!!");
-    }
-</script>
 </body>
 
 </html>
